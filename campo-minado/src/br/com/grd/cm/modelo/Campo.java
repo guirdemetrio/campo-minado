@@ -14,6 +14,12 @@ public class Campo {
 	private boolean minado;
 	private boolean marcado;
 	
+	private static final String ANSI_RESET = "\u001B[0m";
+	private static final String ANSI_AZUL = "\u001B[34m";
+	private static final String ANSI_AMARELO = "\u001B[33m";
+	private static final String ANSI_VERMELHO = "\u001B[35m";
+	private static final String ANSI_ROXO = "\u001B[35m";
+	
 	private List<Campo> vizinhos = new ArrayList<>();
 	
 	Campo(int linha, int coluna){
@@ -83,4 +89,52 @@ public class Campo {
 	public boolean isFechado() {
 		return !isAberto();
 	}
+
+	public int getLinha() {
+		return linha;
+	}
+
+	public int getColuna() {
+		return coluna;
+	}
+	
+	boolean objetivoAlcancado() {
+		boolean desvendado = !minado && aberto;
+		boolean protegido = minado && marcado;
+		return desvendado || protegido;
+	}
+	
+	long minasNaVizinhaca() {
+		return vizinhos.stream().filter(v -> v.minado).count();
+	}
+	
+	void reiniciar() {
+		aberto = false;
+		minado = false;
+		marcado = false;
+	}
+	
+	public String toString() {
+		if(marcado) {
+			return "x";
+		}else if(aberto && minado) {
+			return "*";
+		}else if(aberto && minasNaVizinhaca() > 0) {
+			if(minasNaVizinhaca() == 1) {
+				return ANSI_AZUL + Long.toString(minasNaVizinhaca()) + ANSI_RESET;
+			}else if(minasNaVizinhaca() == 2) {
+				return ANSI_AMARELO + Long.toString(minasNaVizinhaca()) + ANSI_RESET;
+			}else if(minasNaVizinhaca() == 3) {
+				return ANSI_VERMELHO + Long.toString(minasNaVizinhaca()) + ANSI_RESET;
+			}else {
+				return ANSI_ROXO + Long.toString(minasNaVizinhaca()) + ANSI_RESET;
+			}
+		}else if(aberto) {
+			return " ";
+		}else {
+			return "?";
+		}
+	}
+	
+	
 }

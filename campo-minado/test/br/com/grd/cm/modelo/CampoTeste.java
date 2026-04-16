@@ -121,5 +121,42 @@ public class CampoTeste {
 		assertTrue(campo22.isAberto() && campo11.isFechado());
 	}
 	
+	@Test
+	void testeObjetivoAlcancado() {
+		Campo campo12 = new Campo(1, 2);
+		campo12.minar();
+		campo12.alternarMarcacao();
+		
+		Campo campo22 = new Campo(2, 2);
+		campo22.adicionrVizinho(campo12);
+		
+		campo.adicionrVizinho(campo22);
+		campo.abrir();
+		
+		assertTrue(campo22.objetivoAlcancado() && campo12.objetivoAlcancado());
+		
+	}
+	@Test
+	void testeMinasNaVizinhaca() {
+		Campo campo11 = new Campo(1, 1);
+		Campo campo12 = new Campo(1, 2);
+		campo12.minar();
+		campo11.minar();
+		
+		Campo campo22 = new Campo(2, 2);
+		campo22.adicionrVizinho(campo11);
+		campo22.adicionrVizinho(campo12);
+		
+		Campo campo23 = new Campo (2, 3);
+		campo22.adicionrVizinho(campo23);
+		
+		campo.adicionrVizinho(campo22);
+		campo.abrir();
+		
+		assertEquals(2, campo22.minasNaVizinhaca());
+		
+	}
+	
+	
 	
 }
