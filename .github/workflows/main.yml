@@ -22,4 +22,4 @@ jobs:
       - name: Build with Maven
         run: mvn package
       - name: Run
-        run: java -jar target/seu-projeto.jar
+        run: java -jar target/Aplicacao.jar
