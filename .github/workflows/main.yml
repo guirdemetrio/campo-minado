@@ -23,6 +23,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Maven
-        run: mvn package -DskipTests
+        run: mvn package 
       - name: Run
-        run: java -jar target/Aplicacao.jar
+        run: java -jar target/campo-minado-0.0.1-SNAPSHOT.jar
+        
