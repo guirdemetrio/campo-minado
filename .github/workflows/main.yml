@@ -1,9 +1,7 @@
-name: Build
+name: Continuous Delivery
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
     branches: [ main ]
 
 jobs:
@@ -21,9 +19,27 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: 'maven'
 
       - name: Build with Maven
-        run: mvn package 
+        run: mvn package -DskipTests
+
+      - name: Upload JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: campo-minado-jar
+          path: campo-minado/target/campo-minado-0.0.1-SNAPSHOT.jar
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build        ← garante que roda depois do build
+
+    steps:
+      - name: Download JAR
+        uses: actions/download-artifact@v4
+        with:
+          name: campo-minado-jar
+
       - name: Run
-        run: java -jar target/campo-minado-0.0.1-SNAPSHOT.jar
+        run: java -jar campo-minado-0.0.1-SNAPSHOT.jar
         
