@@ -31,10 +31,12 @@ jobs:
           path: campo-minado/target/campo-minado-0.0.1-SNAPSHOT.jar
       
       - name: Build Docker image
-        run: docker build -t campo-minado .
+        run: docker build -t campo-minado 
+        working-directory: ${{ github.workspace }}
 
       - name: Run Docker container
         run: docker run --rm campo-minado
+        working-directory: ${{ github.workspace }}
 
   deploy:
     runs-on: ubuntu-latest
