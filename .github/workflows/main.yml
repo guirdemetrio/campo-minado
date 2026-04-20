@@ -29,6 +29,12 @@ jobs:
         with:
           name: campo-minado-jar
           path: campo-minado/target/campo-minado-0.0.1-SNAPSHOT.jar
+      
+      - name: Build Docker image
+        run: docker build -t campo-minado .
+
+      - name: Run Docker container
+        run: docker run --rm campo-minado
 
   deploy:
     runs-on: ubuntu-latest
@@ -42,4 +48,6 @@ jobs:
 
       - name: Run
         run: java -jar campo-minado-0.0.1-SNAPSHOT.jar
+
+    
         
